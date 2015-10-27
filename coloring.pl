@@ -69,12 +69,6 @@ edge(Parish1 , Parish2):-
 	e(Parish1 , Parish2).
 
 
-edge(Parish1 , Parish2):-
-	member(Parish1 , parishes),
-	member(Parish2 , Parishes),
-	member(e(Parish1 , Parish2) ,Edges).
-
-
 
 
 
