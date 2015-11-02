@@ -60,6 +60,8 @@ colour(yellow).
 
 
 % Method to run the graph colouring
+
+
 execute:-
 	colour_map([],Solution),
 	writeln(Solution).
@@ -70,15 +72,20 @@ execute:-
 % which will add a colour and ensure its not prohibited. It will write
 % the parish to Solution and carry out the function recursively at the
 % end
+
+valid_assignment(Workinglist , Parish ,Colour):-
+	\+ member([Parish, _], Workinglist),
+	\+ prohibited(Parish , Colour, Workinglist).
+
 colour_map(Workinglist,Solution):-
 	parish(Parish),
-	\+member([Parish,_],Workinglist),
 	colour(Colour),
-	\+prohibited(Parish,Colour,Workinglist),
-	write(Parish),nl,
-	colour_map([[Parish,Colour]|Workinglist],Solution).
+	valid_assignment(Workinglist , Parish , Colour),
+	colour_map([[Parish, Colour]|Workinglist],Solution).
+
 
 % End State where Sofar is the same Solution of Solution
+
 colour_map(Solution,Solution).
 
 % Parish cannot be coloured if the adjacent parish is already coloured
@@ -103,6 +110,19 @@ writeln([X|Y]):-
 member(X,[X|_]).
 member(X,[_|Y]):-
 	member(X,Y).
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
