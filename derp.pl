@@ -1,5 +1,5 @@
 % COMP3220 Assignment 2
-% November 2, 2015
+% November 6, 2015
 % Raphaella Colahar 620065239
 % Travis Smith 620065811
 % Justen Morgan 620070138
@@ -9,7 +9,8 @@
 % colour search
 %
 
-% Facts of the parishes of Jamaica
+% Facts of the parishes of Jamaica. Can be any fact of a problem in
+% order to be generic.
 parish("Hanover").
 parish("Westmoreland").
 parish("St. James").
@@ -25,7 +26,8 @@ parish("Kingston").
 parish("Portland").
 parish("St. Thomas").
 
-% Facts of the edges between two adjacent parishes of Jamaica
+% Facts of the edges between two adjacent parishes of Jamaica. Can be
+% any edge or link between the facts in order to be generic.
 edge("Hanover","Westmoreland").
 edge("Hanover","St. James").
 edge("Westmoreland","St. James").
@@ -52,7 +54,7 @@ edge("St. Andrew","St. Thomas").
 edge("St. Andrew","Kingston").
 edge("Portland","St. Thomas").
 
-%Available fixed colours to choose from
+% Available colours to choose from a given set
 colour(red).
 colour(blue).
 colour(green).
@@ -60,22 +62,22 @@ colour(yellow).
 
 
 % Method to run the graph colouring
-
-
 execute:-
 	colour_map([],Solution),
 	writeln(Solution).
 
+% Checks the parishes and colours in the working list to ensure it is
+% true
+valid_assignment(Workinglist , Parish ,Colour):-
+	not(member([Parish, _], Workinglist)),
+	not(prohibited(Parish , Colour, Workinglist)).
+
+
 % Searches for correct coloured parishes to store in Solution on
 % Workinglist which is the working list of parishes.
-% Uses a parish and checks if its member is not a parish of Workinglist
-% which will add a colour and ensure its not prohibited. It will write
-% the parish to Solution and carry out the function recursively at the
-% end
-
-valid_assignment(Workinglist , Parish ,Colour):-
-	\+ member([Parish, _], Workinglist),
-	\+ prohibited(Parish , Colour, Workinglist).
+% Loads a parish and a colour and executes valid_assignment to ensure it
+% is true for the function to run recursively.
+% Else it will go to the goal state
 
 colour_map(Workinglist,Solution):-
 	parish(Parish),
@@ -84,7 +86,9 @@ colour_map(Workinglist,Solution):-
 	colour_map([[Parish, Colour]|Workinglist],Solution).
 
 
-% End State where Sofar is the same Solution of Solution
+
+% Goal State where there is no more colours to be loaded on the loaded
+% parishes for the problem
 
 colour_map(Solution,Solution).
 
